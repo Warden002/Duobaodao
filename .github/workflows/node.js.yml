@@ -1,0 +1,31 @@
+# 此工作流程将彻底安装节点依赖项、缓存/恢复它们、构建源代码并跨不同版本的节点运行测试
+# 有关更多信息，请参阅：https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+名称： Node.js CI
+
+在：
+  推：
+    分支：[    “主要”   ]
+  拉请求：
+    分支：[    “主要”    ]
+
+工作：
+  建造者：
+
+    运行： ubuntu-latest
+
+    战略：
+      矩阵：
+        节点版本：[ 14.x 、 16.x 、 18.x ]
+        # 请参阅支持的 Node.js 发布时间表：https://nodejs.org/en/about/releases/
+
+    脚步：脚步：
+    -使用： actions/checkout@v3
+    -名称：使用Node.js $ {   {矩阵.节点版本}    }
+      使用： actions/setup-node@v3
+      和：
+        节点版本: $ {   {矩阵.节点版本}  }
+        缓存：'npm'
+    -运行： npm ci
+    -运行： npm run build --if-present
+    -运行： npm 测试
